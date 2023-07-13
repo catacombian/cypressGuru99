@@ -48,7 +48,7 @@ it('Valid Customer, check ACTIVE status', () => {
         cy.log('Customer ID checked');
     });  
 });
-
+ 
 
 it.only('Valid Customer min value and Pending radio, Check customer status - INACTIVE', () => {
     cy.visit("https://demo.guru99.com/telecom/addcustomer.php");

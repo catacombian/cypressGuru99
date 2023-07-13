@@ -20,7 +20,7 @@ it('Valid Ligin', () => {
     cy.get('.heading3').should('contain.text', `Welcome To Customer's Page of Guru99 Bank`)
     });
 });
-
+ 
 
 it('Valid Ligin and Reset', () => {
     cy.visit("https://demo.guru99.com/Agile_Project/Agi_V1/index.php");

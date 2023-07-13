@@ -28,7 +28,7 @@ it('Invalid tariff max+1', () => {
     cy.get('h2')
     .should('have.text', 'Congratulation you add Tariff Plan')
 });
-
+ 
 it.skip('Invalid tariff min-1', () => {
     cy.visit("https://demo.guru99.com/telecom/addtariffplans.php");
         cy.log('Page Opened');

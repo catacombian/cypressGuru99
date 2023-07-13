@@ -124,7 +124,7 @@ it('Payment page - Valid  MASTER CARD', () => {
   cy.url().should('contain', 'genearte_orderid.php?uid')   
 });
 
-
+ 
 it('Payment page - Valid  DISCOVER CARD', () => {
   cy.visit("https://demo.guru99.com/payment-gateway/process_purchasetoy.php");
   cy.getAndFillCard(data.discover.number, 

@@ -76,4 +76,4 @@ it('Reset button check', () => {
         cy.on('window:confirm', () => true)
     });
 });
-})
+}) 

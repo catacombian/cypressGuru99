@@ -14,7 +14,7 @@ it('Invalid Customer min-1, radio button not checked', () => {
         expect(txt).to.equal('please fill all fields');
         }); // alert
     });
-
+ 
 it('Invalid Customer max+1', () => {
     cy.visit("https://demo.guru99.com/telecom/addcustomer.php");
     cy.log('Page Add Customer opened')

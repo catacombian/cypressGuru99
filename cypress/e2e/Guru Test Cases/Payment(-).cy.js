@@ -10,7 +10,7 @@ it('Payment page - invalid BLANK CVV', () => {
     cy.url().should('contain', 'genearte_orderid.php?uid')   
   });
   
-  
+   
   it('Payment page - invalid ALL FIELDS UNFILLED', () => {
     cy.visit("https://demo.guru99.com/payment-gateway/process_purchasetoy.php");
     cy.get('.button.special').should('be.visible').click({force:true})
