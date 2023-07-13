@@ -1,4 +1,5 @@
 /// <reference types="Cypress" />
+const data = require ('../../fixtures/Cards.json');
 
 describe('Payment', () => {
 
@@ -20,21 +21,18 @@ it.skip('Check quantity and price', () => {
     // '7': '$140',
     // '8': '$160',
     // '9': '$180'
-}
-
-    cy.visit('https://demo.guru99.com/payment-gateway/index.php')
-        for (const [qnt, price] of Object.entries(checkingPrice)) {
-        cy.get(quantity).select(qnt)
-        .get('h3')
-        .should('have.text', 'Price: ' + price)
-        }
-        cy.get('.button.special').click()
+  } 
+  cy.visit('https://demo.guru99.com/payment-gateway/index.php')
+      for (const [qnt, price] of Object.entries(checkingPrice)) {
+      cy.get(quantity).select(qnt)
+      .get('h3')
+      .should('have.text', 'Price: ' + price)
+      }
+      cy.get('.button.special').click()
 });
 
-
-    
-    
-it.skip('Check all links', () => {
+ 
+it('Check all links', () => {
 
     let links = {
       'Insurance Project': '/insurance/v1/index.php',
@@ -80,59 +78,48 @@ it.skip('Check all links', () => {
   });
 }); 
 
-it('Payment page - Valid VISA', () => {
+it('Payment page - Valid card, select all drop-down', () => {
   cy.visit("https://demo.guru99.com/payment-gateway/process_purchasetoy.php");
   cy.get('#card_nmuber').should('be.visible')
   .should('have.attr', 'placeholder', 'Enter Your Card Number')
   .type('4512345678901234')
   cy.log('Card entered');
-
   let months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12]
   for (const month of Object.values(months)) {
     cy.get('#month').select(month);
   }
   cy.log('Each month dropdown option checked');
-
   let years = ['2017', '2018', '2019', '2020', '2021', '2022', '2023', 
   '2024', '2025', '2026', '2027', '2028']
   for (const year of Object.values(years)) {
     cy.get('#year').select(year);
   }
   cy.log('Each year dropdown option checked');
-
   cy.get('#cvv_code').should('be.visible').should('have.attr', 'placeholder', 'CVV Code')
   .type('123')
-
   cy.get('.button.special').should('be.visible').click({force:true}) //get input type xubmit
   cy.url().should('contain', 'genearte_orderid.php?uid')   
 });
 
 
 
-
-it('Payment page - Valid MASTER CARD', () => {
+it.only('Payment page - Valid Visa', () => {
   cy.visit("https://demo.guru99.com/payment-gateway/process_purchasetoy.php");
-  cy.get('#card_nmuber').type('42035178957390306')
-  cy.log('Card entered');
-  cy.get('#month').select(1);
-  cy.log('Month checked');
-  cy.get('#year').select('2023');
-  cy.log('Year checked');
-  cy.get('#cvv_code').type('748')
+  cy.getAndFillCard(data.visa.number, 
+    data.visa.month,
+    data.visa.year,
+    data.visa.cvv)
   cy.get('.button.special').should('be.visible').click({force:true})
   cy.url().should('contain', 'genearte_orderid.php?uid')   
 });
 
 
-it('Payment page - Valid  AMERICAN EXPRESS', () => {
+it('Payment page - Valid  MASTER CARD', () => {
   cy.visit("https://demo.guru99.com/payment-gateway/process_purchasetoy.php");
-  cy.get('#card_nmuber').type('3782517895739036') // 15-digit card
-  cy.log('Card entered');
-  cy.get('#month').select(4);
-  cy.log('Month checked');
-  cy.get('#year').select('2024');
-  cy.log('Year checked');
-  cy.get('#cvv_code').type('230')
+  cy.getAndFillCard(data.mastercard.number, 
+    data.mastercard.month,
+    data.mastercard.year,
+    data.mastercard.cvv)
   cy.get('.button.special').should('be.visible').click({force:true})
   cy.url().should('contain', 'genearte_orderid.php?uid')   
 });
@@ -140,41 +127,23 @@ it('Payment page - Valid  AMERICAN EXPRESS', () => {
 
 it('Payment page - Valid  DISCOVER CARD', () => {
   cy.visit("https://demo.guru99.com/payment-gateway/process_purchasetoy.php");
-  cy.get('#card_nmuber').type('3782517895739034')
-  cy.log('Card entered');
-  cy.get('#month').select(7);
-  cy.log('Month checked');
-  cy.get('#year').select('2024');
-  cy.log('Year checked');
-  cy.get('#cvv_code').type('829')
+  cy.getAndFillCard(data.discover.number, 
+    data.discover.month,
+    data.discover.year,
+    data.discover.cvv)
   cy.get('.button.special').should('be.visible').click({force:true})
   cy.url().should('contain', 'genearte_orderid.php?uid')   
 });
 
-it('Payment page - Valid  4-DIGIT CVV', () => {
+it('Payment page - Valid  American Express', () => {
   cy.visit("https://demo.guru99.com/payment-gateway/process_purchasetoy.php");
-  cy.get('#card_nmuber').type('4782517895739034')
-  cy.log('Card entered');
-  cy.get('#month').select(10);
-  cy.log('Month checked');
-  cy.get('#year').select('2024');
-  cy.log('Year checked');
-  cy.get('#cvv_code').type('1295')
+  cy.getAndFillCard(data.american.number, 
+    data.american.month,
+    data.american.year,
+    data.american.cvv)
   cy.get('.button.special').should('be.visible').click({force:true})
   cy.url().should('contain', 'genearte_orderid.php?uid')   
 });
 
-it('Payment page - Valid  4-DIGIT CVV', () => {
-  cy.visit("https://demo.guru99.com/payment-gateway/process_purchasetoy.php");
-  cy.get('#card_nmuber').type('4782517895739034')
-  cy.log('Card entered');
-  cy.get('#month').select(10);
-  cy.log('Month checked');
-  cy.get('#year').select('2024');
-  cy.log('Year checked');
-  cy.get('#cvv_code').type('1295')
-  cy.get('.button.special').should('be.visible').click({force:true})
-  cy.url().should('contain', 'genearte_orderid.php?uid')   
-});
 
 

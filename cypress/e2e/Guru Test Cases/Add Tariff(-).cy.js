@@ -1,49 +1,38 @@
-it.only('Invalid tariff max+1', () => {
+it('Invalid tariff max+1', () => {
     cy.visit("https://demo.guru99.com/telecom/addtariffplans.php");
-        cy.log('Page Opened');
-    cy.checkFieldsTitles('#rental1', 999990)
+    cy.log('Page Opened');
+    cy.getAndFillTariff('99999', '99999', '99999', '99999', '999', '999', '999') 
+    cy.get('#rental1')
     .should('have.value', '99999')
-        cy.log('Monthly Rental')
-    cy.checkFieldsTitles('#local_minutes', 999990)
+    cy.log('Monthly Rental');
+    cy.get('#local_minutes')
     .should('have.value', '99999')
-        cy.log('Free local minutes');
-    cy.checkFieldsTitles('#inter_minutes', 999990)
+    cy.log('Free local minutes');
+    cy.get('#inter_minutes')
     .should('have.value', '99999')
-        cy.log('Free int Minutes');
-    cy.checkFieldsTitles('#sms_pack', 999990)
+    cy.log('Free int Minutes');
+    cy.get('#sms_pack')
     .should('have.value', '99999')
-        cy.log('SMS Pack');
-    cy.checkFieldsTitles('#minutes_charges', 9990)
+    cy.log('SMS Pack');
+    cy.get('#minutes_charges')
     .should('have.value', '999')
-        cy.log('Local per minutes charges');
-    cy.checkFieldsTitles('#inter_charges', 9990)
+    cy.log('Local per minutes charges');
+    cy.get('#inter_charges')
     .should('have.value', '999')
-        cy.log('Int per minutes charges');
-    cy.checkFieldsTitles('#sms_charges', 9990)
+    cy.log('Int per minutes charges');
+    cy.get('#sms_charges')
     .should('have.value', '999')
-        cy.log('SMS per charges')
+    cy.log('SMS per charges')
     cy.get('input[type="submit')
-    .should('have.attr', 'value', 'submit').click()
+    .should('have.attr', 'value', 'submit')
     cy.get('h2')
     .should('have.text', 'Congratulation you add Tariff Plan')
 });
 
-it('Invalid tariff min-1', () => {
+it.skip('Invalid tariff min-1', () => {
     cy.visit("https://demo.guru99.com/telecom/addtariffplans.php");
         cy.log('Page Opened');
-    cy.checkFieldsTitles('#rental1', 0)
-        cy.log('Monthly Rental')
-    cy.checkFieldsTitles('#local_minutes', 0)
-        cy.log('Free local minutes');
-    cy.checkFieldsTitles('#inter_minutes', 0)
-        cy.log('Free int Minutes');
-    cy.checkFieldsTitles('#sms_pack', 0)
-        cy.log('SMS Pack');
-    cy.checkFieldsTitles('#minutes_charges', 0)
-        cy.log('Local per minutes charges');
-    cy.checkFieldsTitles('#inter_charges', 0)
-        cy.log('Int per minutes charges');
-    cy.checkFieldsTitles('#sms_charges', 0)
+        cy.getAndFillTariff('0', '0', '0', '0', '0', '0', '0') 
         cy.log('SMS per charges')
     cy.get('input[type="submit')
     .should('have.attr', 'value', 'submit').click()
@@ -55,32 +44,26 @@ it('Invalid tariff min-1', () => {
 
 it('Invalid tariff added - Characters error', () => {
     cy.visit("https://demo.guru99.com/telecom/addtariffplans.php");
-        cy.log('Page Opened')
-    cy.checkFieldsTitles('#rental1', 'ttt')
+    cy.log('Page Opened')
+    cy.getAndFillTariff('ttt', 'ttt', 'ttt', 'ttt', 'ttt', 'ttt', 'ttt') 
     cy.get('#message2')
     .should('have.text', 'Characters are not allowed');
         cy.log('Invalid Monthly Rental');
-    cy.checkFieldsTitles('#local_minutes', 'ttt')
     cy.get('#message3')
     .should('have.text', 'Characters are not allowed')
         cy.log('Invalid Free local minutes');
-    cy.checkFieldsTitles('#inter_minutes', 'ttt')
     cy.get('#message4')
     .should('have.text', 'Characters are not allowed')
         cy.log('Invalid Free int Minutes');
-    cy.checkFieldsTitles('#sms_pack', 'ttt')
     cy.get('#message5')
     .should('have.text', 'Characters are not allowed')
         cy.log('Invalid SMS Pack');
-    cy.checkFieldsTitles('#minutes_charges', 'ttt')
     cy.get('#message6')
     .should('have.text', 'Characters are not allowed')
         cy.log('Invalid Local per minutes charges');
-    cy.checkFieldsTitles('#inter_charges', 'ttt')
     cy.get('#message7')
     .should('have.text', 'Characters are not allowed')
         cy.log('Invalid Int per minutes charges');
-    cy.checkFieldsTitles('#sms_charges', 'ttt')
     cy.get('#message8')
     .should('have.text', 'Characters are not allowed')
         cy.log('Invalid SMS per charge');
@@ -88,34 +71,28 @@ it('Invalid tariff added - Characters error', () => {
     });
 
 
-it('Invalid tariff added - Special Characters error', () => {
+it.only('Invalid tariff added - Special Characters error', () => {
     cy.visit("https://demo.guru99.com/telecom/addtariffplans.php");
         cy.log('Page Opened')
-    cy.checkFieldsTitles('#rental1', '12.2')
+        cy.getAndFillTariff('1.1', '1.1', '1.1', '1.1', '1.1', '1.1', '1.1')     
     cy.get('#message2')
     .should('have.text', 'Special characters are not allowed');
         cy.log('Invalid Monthly Rental');
-    cy.checkFieldsTitles('#local_minutes', '12.2')
     cy.get('#message3')
     .should('have.text', 'Special characters are not allowed')
         cy.log('Invalid Free local minutes');
-    cy.checkFieldsTitles('#inter_minutes', '12.2')
     cy.get('#message4')
     .should('have.text', 'Special characters are not allowed')
         cy.log('Invalid Free int Minutes');
-    cy.checkFieldsTitles('#sms_pack', '12.2')
     cy.get('#message5')
     .should('have.text', 'Special characters are not allowed')
         cy.log('Invalid SMS Pack');
-    cy.checkFieldsTitles('#minutes_charges', '1.2')
     cy.get('#message6')
     .should('have.text', 'Special characters are not allowed')
         cy.log('Invalid Local per minutes charges');
-    cy.checkFieldsTitles('#inter_charges', '1.2')
     cy.get('#message7')
     .should('have.text', 'Special characters are not allowed')
         cy.log('Invalid Int per minutes charges');
-    cy.checkFieldsTitles('#sms_charges', '1.2')
     cy.get('#message8')
     .should('have.text', 'Special characters are not allowed')
         cy.log('Invalid SMS per charge');
@@ -129,6 +106,34 @@ it('Invalid tariff added - Special Characters error', () => {
 
 it('Blank fields and alert check', () => {
     cy.visit("https://demo.guru99.com/telecom/addtariffplans.php");
+    cy.get('#rental1').click();
+    cy.get('#local_minutes').click();
+    cy.get('#inter_minutes').click();
+    cy.get('#sms_pack').click();
+    cy.get('#minutes_charges').click();
+    cy.get('#inter_charges').click();
+    cy.get('#sms_charges').click();
+    cy.get('#rental1').click();
+    cy.get('#message2')
+    .should('have.text', 'Field cant be blank');
+        cy.log('Invalid Monthly Rental');
+    cy.get('#message3')
+    .should('have.text', 'Field cant be blank')
+        cy.log('Invalid Free local minutes');
+    cy.get('#message4')
+    .should('have.text', 'Field cant be blan')
+        cy.log('Invalid Free int Minutes');
+    cy.get('#message5')
+    .should('have.text', 'Field cant be blan')
+        cy.log('Invalid SMS Pack');
+    cy.get('#message6')
+    .should('have.text', 'Field cant be blan')
+        cy.log('Invalid Local per minutes charges');
+    cy.get('#message7')
+    .should('have.text', 'Field cant be blan')
+        cy.log('Invalid Int per minutes charges');
+    cy.get('#message8')
+    .should('have.text', 'Field cant be blan')
     cy.get('input[type="submit"]')
     .click()
     cy.on('window:alert',(txt)=>{

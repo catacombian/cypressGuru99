@@ -1,13 +1,14 @@
+const data = require ('../../fixtures/login.json') 
 describe('Login page', () => {
     
 
 it('Valid Ligin', () => {
     cy.visit("https://demo.guru99.com/Agile_Project/Agi_V1/index.php");
     cy.get('td').eq(5).should('have.text', 'UserID')
-    cy.get(`input[name="uid"]`).should('be.visible').type('1303')
+    cy.get(`input[name="uid"]`).should('be.visible').type(data.user1.UserID)
         cy.log('UserID checked');
     cy.get('td').eq(7).should('have.text', 'Password')
-    cy.get('input[name="password"]') .should('be.visible').type('Guru99')
+    cy.get('input[name="password"]').should('be.visible').type(data.user1.Password)
         cy.log('Password checked');
     cy.get('input[name="btnReset"]')
         .should('have.value', "RESET")
@@ -23,9 +24,9 @@ it('Valid Ligin', () => {
 
 it('Valid Ligin and Reset', () => {
     cy.visit("https://demo.guru99.com/Agile_Project/Agi_V1/index.php");
-    cy.get(`input[name="uid"]`).should('be.visible').type('1303')
+    cy.get(`input[name="uid"]`).should('be.visible').type(data.user1.UserID)
         cy.log('UserID checked');
-    cy.get('input[name="password"]') .should('be.visible').type('Guru99')
+    cy.get('input[name="password"]') .should('be.visible').type(data.user1.Password)
         cy.log('Password checked');
     cy.get('input[name="btnReset"]')
         .should('have.value', "RESET").click()
@@ -33,16 +34,17 @@ it('Valid Ligin and Reset', () => {
     cy.get('input[name="btnLogin"]')
         .should('have.value', "LOGIN").click()
         cy.log('Login checked');
-    // cy.on('window:alert',(txt)=>{
-    //         expect(txt).to.equal('User or Password is not valid');
-    //     cy.log('alert checked');
-});
+    cy.on('window:alert',(txt)=>{
+            expect(txt).to.equal('User or Password is not valid');
+        cy.log('alert checked');
+    }); 
+})
 
-it('Valid ID invalid password ', () => {
+it.only('Valid ID invalid password ', () => {
     cy.visit("https://demo.guru99.com/Agile_Project/Agi_V1/index.php");
-    cy.get(`input[name="uid"]`).type('1303')
+    cy.get(`input[name="uid"]`).type(data.user1.UserID)
         cy.log('UserID checked');
-    cy.get('input[name="password"]') .should('be.visible').type('Guru999')
+    cy.get('input[name="password"]') .should('be.visible').type(data.user1.Password+'x')
         cy.log('Password checked');
     cy.get('input[name="btnLogin"]')
         .should('have.value', "LOGIN").click()
@@ -51,11 +53,11 @@ it('Valid ID invalid password ', () => {
 });
 
 
-it.only('Invalid ID and valid passeord', () => {
+it('Invalid ID and valid passeord', () => {
     cy.visit("https://demo.guru99.com/Agile_Project/Agi_V1/index.php");
-    cy.get(`input[name="uid"]`).type('13039')
+    cy.get(`input[name="uid"]`).type(data.user1.UserID+'x')
         cy.log('UserID checked');
-    cy.get('input[name="password"]').type('Guru99')
+    cy.get('input[name="password"]').type(data.user1.Password)
         cy.log('Password checked');
     cy.get('input[name="btnLogin"]')
         .should('have.value', "LOGIN").click()

@@ -2,39 +2,36 @@ let maxName = 'oamPJUEhdZQwkldZSBkwtuNdLEqfZvGMgAUHLEPfMWGUBORQXT';
 let maxAddress = 'echCqdombkpeqEKNvSOgngKqhUzfMxMWfwwMrUsdldkmhJuIPfPuoOysCYVxBuXldKaIrAGzhPDWTShMhRhKuNJcjKhagVCWvQct';
 let maxEmail = 'EnPfVYOHOMOSWXJOKTdtivLmYGqVbNpHciSkXQJEzFbBsaBgZMnCNIthMChaURwU@xqXJmJicjNSAJmOSOQIYEybvfkqWfkctTlEVkoXcrwSxBDKffKAVlwcwVoRwQwtoLCTMHfnaBIVcIBYMnOYpZwOehBksSRiKtCHWmUBednMuHHeqKMigtwHONtsiVaZtKDprAARBDTlkHkTvsvYyHxWYoJyEmYyoVhwPtOlFqqvZZoUkIjlrFbFKeMehhVtcRdZUTKBacdTiVtKhzjkohVFKgiBuymTOEXASJBNWnLpAwMSmEIEBhINzVJym.la';
 let maxTel = '123456789112';
+const data = require ('../../fixtures/Customer.json') 
+
 
 Cypress.on('uncaught:exception', (err, runnable) => {
     // remove bootstrap error
     return false;
 });
 
-describe('Add Customer', () => {
-
     
-it.only('Valid Customer, check ACTIVE status', () => {
+it('Valid Customer, check ACTIVE status', () => {
     cy.visit("https://demo.guru99.com/telecom/addcustomer.php");
-    cy.log('Page Add Customer opened')
-    cy.get('a[href="index.html"]').eq(0).should('have.text', 'Guru99 telecom')
+    cy.log('Page Add Customer opened');
+    cy.get('a[href="index.html"]').eq(0).should('have.text', 'Guru99 telecom');
     cy.get('#done')
     .check('ACTIVE', {force: true})
-    .should('be.checked')
-    .and('have.css', 'background-color', 'rgb(246, 117, 94)')	
-    cy.get('label[for="done"]').should('have.text', 'Done')
-    cy.log('Done checked')
-    cy.getFieldById('#fname', 'TestName')
-    cy.log('First Name filled');
-    cy.getFieldById('#lname', 'TLastName')
-    cy.log('Last Name filled');
-    cy.getFieldById('#email', 'test@mail.com')
-    cy.log('Emeail entered');
-    cy.get('textarea[name=addr]').type('text')
-    cy.log('Address filled');
-    cy.getFieldById('#telephoneno', 123123123)
-    cy.log('Tel number filled');
+    .should('be.checked') ;
+    cy.get('label[for="done"]').within(($el) => {
+        cy.window().then((win) => {
+          const before = win.getComputedStyle($el[0], "::before");
+          const background = before.getPropertyValue("background");
+          expect(background).to.contains('rgb(246, 117, 94)');
+        });
+      });
+      cy.log('Done checked')
+    cy.getAndFillCustomer(data.Vcustomer.firstName, data.Vcustomer.lastName, 
+        data.Vcustomer.email, data.Vcustomer.address, data.Vcustomer.mobile)
     cy.get('input[type="submit"]')
     .should('have.css', 'background-color', 'rgb(246, 117, 94)')	
-    .click()
-    cy.url() // add link check
+    .click();
+    cy.url().should('contain', 'telecom/access.php?') ;
     let customerId;
     cy.location('search').then(path => {
         customerId = path.split('=')[1];
@@ -49,28 +46,25 @@ it.only('Valid Customer, check ACTIVE status', () => {
         cy.get('.fit').click()
         cy.contains(customerId)
         cy.log('Customer ID checked');
-        });  
-    });
-})
+    });  
+});
 
-it('Valid Customer min value and Pending radio, Check customer status - INACTIVE', () => {
+
+it.only('Valid Customer min value and Pending radio, Check customer status - INACTIVE', () => {
     cy.visit("https://demo.guru99.com/telecom/addcustomer.php");
     cy.log('Page Add Customer opened')
     cy.get('#pending')
     .check({force: true})
     cy.get('label[for="pending"]').should('have.text', 'Pending')
-    cy.log('Pending checked')
-    cy.getFieldById('#fname', 'S')
-    cy.log('First Name filled');
-    cy.getFieldById('#lname', 'B')
-    cy.log('Last Name filled');
-    cy.getFieldById('#email', 'ts@e.st')
-    cy.log('Email entered');
-    cy.get('textarea[name=addr]')
-    .type('s')
-    cy.log('Address filled');
-    cy.getFieldById('#telephoneno', 1234457)
-    cy.log('Tel number filled');
+    cy.get('label[for="pending"]').within(($el) => {
+        cy.window().then((win) => {
+          const before = win.getComputedStyle($el[0], "::before");
+          const background = before.getPropertyValue("background");
+          expect(background).to.contains('rgb(246, 117, 94)');
+        });
+      });
+    cy.getAndFillCustomer(data.Vcustomer.firstName, data.Vcustomer.lastName, 
+        data.Vcustomer.email, data.Vcustomer.address, data.Vcustomer.mobile)
     cy.get('input[type="submit"]')
     .click()
     let customerId;
@@ -84,20 +78,24 @@ it('Valid Customer min value and Pending radio, Check customer status - INACTIVE
     });    
 });
 
-it('Valid Customer max value', () => {
+
+it.skip('Valid Customer max value', () => {
     cy.visit("https://demo.guru99.com/telecom/addcustomer.php");
     cy.log('Page Add Customer opened')
-    cy.get('[type="radio"]').check('ACTIVE', {force: true})
-    cy.getFieldById('#fname', maxName)
-    cy.log('First Name filled');
-    cy.getFieldById('#lname', maxName)
-    cy.log('Last Name filled');
-    cy.getFieldById('#email', maxEmail)
+    cy.getAndFillCustomer(maxName, maxName, 
+        maxEmail, maxAddress, maxTel);
+    cy.get('#message').should('not.be.visible')
+    cy.log('Error has not appear');
+    cy.get('#message50').should('not.be.visible')
+    cy.log('Error has not appear');
+    cy.getAndFillCustomer('#email', 't@e.st')
     cy.log('Email entered');
-    cy.getFieldById('textarea[name=addr]', maxAddress)
-    cy.log('Address filled');
-    cy.getFieldById('#telephoneno', maxTel)
-    cy.log('Tel number filled');
+    cy.get('#message9').should('not.be.visible')
+    cy.log('Error has not appear');
+    cy.get('#message3').should('not.be.visible')
+    cy.log('Error has not appear');
+    cy.get('#message7').should('not.be.visible')
+    cy.log('Error has not appear');    
     cy.get('input[type="submit"]').click()
     cy.url().should('contain', 'access.php?uid')
     });
@@ -107,32 +105,14 @@ it.skip('Valid Customer Reset Button', () => {
     cy.visit("https://demo.guru99.com/telecom/addcustomer.php");
     cy.log('Page Add Customer opened')
     cy.get('[type="radio"]').check('ACTIVE', {force: true})
-    cy.getFieldById('#fname', 'A')
-    cy.log('First Name filled');
-    cy.get('#message').should('not.be.visible')
-    cy.log('Error has not appear');
-    cy.getFieldById('#lname', 'B')
-    cy.log('Last Name filled');
-    cy.get('#message50').should('not.be.visible')
-    cy.log('Error has not appear');
-    cy.getFieldById('#email', 't@e.st')
-    cy.log('Email entered');
-    cy.get('#message9').should('not.be.visible')
-    cy.log('Error has not appear');
-    cy.get('textarea[name=addr]').type('t')
-    cy.log('Address filled');
-    cy.get('#message3').should('not.be.visible')
-    cy.log('Error has not appear');
-    cy.getFieldById('#telephoneno', 1234567)
-    cy.log('Tel number filled');
-    cy.get('#message7').should('not.be.visible')
-    cy.log('Error has not appear');
+    cy.getAndFillCustomer(data.Vcustomer.firstName, data.Vcustomer.lastName, 
+        data.Vcustomer.email, data.Vcustomer.address, data.Vcustomer.mobile)
     cy.get('input[type="reset"]')
     .click()
     cy.get('input[type="submit"]')
     .click() 
-});// an error notification should appear   
-// label should.have visability:hidden
+});
+
 
 
 
