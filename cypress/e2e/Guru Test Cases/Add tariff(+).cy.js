@@ -54,7 +54,7 @@ it('Valid tariff min', () => {
 });
 
 
-it('Valid tariff max', () => {
+it('Valid tariff max value', () => {
     cy.visit("https://demo.guru99.com/telecom/addtariffplans.php");
         cy.log('Page Opened');
         cy.getAndFillTariff('99999', '99999', '99999', '99999', '999', '999', '999') 
