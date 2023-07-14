@@ -3,5 +3,15 @@
     {
     "UserID": "1303",
     "Password": "Guru99"
+  },
+  "invalidID":
+    {
+    "UserID": "1303g",
+    "Password": "Guru99"
+  },
+  "invalidPassword":
+    {
+    "UserID": "1303",
+    "Password": "Guru99g"
   }
 }

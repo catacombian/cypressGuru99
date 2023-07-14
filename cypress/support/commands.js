@@ -75,6 +75,13 @@ Cypress.Commands.add('getAndFillCard', (number, month, year, cvv) => {
 
 });
 
+Cypress.Commands.add('getAndFillLogin', (id, password) => {
+  cy.get(`input[name="uid"]`).should('be.visible').type(id),  
+  cy.log('ID entered')
+  cy.get('input[name="password"]').should('be.visible').type(password)
+  cy.log('Passeord entered')
+});
+
 Cypress.Commands.add('getTextAreaById', (labelID, val) => {
   cy.get(labelID).type(val)
 });

@@ -9,11 +9,10 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 });
 
 it.skip('Check quantity and price', () => {
-
     const quantity = 'select[name="quantity"]'
     const checkingPrice = {
     '1': '$20',
-    // '2': '$40',
+    // '2': '$'+,
     // '3': '$60',
     // '4': '$80',
     // '5': '$100',
