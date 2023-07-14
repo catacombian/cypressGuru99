@@ -10,7 +10,6 @@ it.only('Valid Ligin', () => {
     cy.get('.barone').eq(1).should('have.text', 'Access')
     .parents()
     cy.getAndFillLogin(data.user1.UserID, data.user1.Password)
-
     cy.get('input[name="btnReset"]')
         .should('have.value', "RESET")
         .and('have.css', 'background-color', 'rgb(248, 248, 255)')

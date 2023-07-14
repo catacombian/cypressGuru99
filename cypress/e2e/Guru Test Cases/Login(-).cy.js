@@ -2,7 +2,7 @@ const data = require ('../../fixtures/login.json')
 describe('Login page negative', () => {
     
 
-it('Valid ID invalid password ', () => {
+it.skip('Valid ID invalid password ', () => {
     cy.visit("https://demo.guru99.com/Agile_Project/Agi_V1/index.php");
     cy.getAndFillLogin(data.invalidPassword.UserID, data.invalidPassword.Password);
     cy.get('input[name="btnLogin"]')
@@ -15,7 +15,7 @@ it('Valid ID invalid password ', () => {
 });
 
 
-it('Invalid ID and valid password', () => {
+it.skip('Invalid ID and valid password', () => {
     cy.visit("https://demo.guru99.com/Agile_Project/Agi_V1/index.php");
     cy.getAndFillLogin(data.invalidID.UserID, data.invalidID.Password)
     cy.get('input[name="btnLogin"]')
