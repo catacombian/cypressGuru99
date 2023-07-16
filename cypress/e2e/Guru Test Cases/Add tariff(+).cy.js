@@ -30,10 +30,7 @@ it.only('Valid tariff added', () => {
     .parents()
     .should('have.attr', 'style', 'text-align:center;');
     cy.log('Field titles UI checked');
-    cy.getAndFillTariff(data.Tariff.monthlyRental, data.Tariff.freeLocalMinutes, 
-        data.Tariff.freeInternationalMinutes, 
-        data.Tariff.freeSMS, data.Tariff.localPerMinutes, 
-        data.Tariff.intPerMinutes, data.Tariff.smsPerCharges)   
+    cy.getAndFillTariffrandom()   
     cy.get('input[type="submit')
     .should('have.attr', 'value', 'submit')
     .and('have.css', 'background-color', 'rgb(246, 117, 94)')
@@ -68,7 +65,7 @@ it('Valid tariff max value', () => {
 
 it('Reset button check', () => {
     cy.visit("https://demo.guru99.com/telecom/addtariffplans.php");
-    cy.getAndFillTariff('1', '1', '1', '1', '1', '1', '1') 
+    cy.getAndFillTariffrandom('1', '1', '1', '1', '1', '1', '1') 
     cy.get('input[type="Reset"]').click()
     cy.get('input[type="submit"]').click()
     cy.on('window:alert',(txt)=>{

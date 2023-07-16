@@ -1,3 +1,8 @@
+const data = require ('../../fixtures/Cards.json');
+Cypress.on('uncaught:exception', (err, runnable) => {
+  // remove bootstrap error
+  return false;
+});
 it('Payment page - invalid BLANK CVV', () => {
     cy.visit("https://demo.guru99.com/payment-gateway/process_purchasetoy.php");
     cy.get('#card_nmuber').type('4782517895739034')
@@ -21,12 +26,12 @@ it('Payment page - invalid BLANK CVV', () => {
   });
 
 
-  it('Payment page - invalid expired card', () => {
+  it.only('Payment page - invalid expired card', () => {
     cy.visit("https://demo.guru99.com/payment-gateway/process_purchasetoy.php");
-    cy.getAndFillCard(data.mastercard.number, 
+    cy.expired(
       1,
-      '2017',
-      data.mastercard.cvv)
+      '2017')
+      cy.get('.button.special').should('be.visible').click({force:true})
       cy.on('window:alert',(txt)=>{
         expect(txt).to.equal('Card expired')
     }); 

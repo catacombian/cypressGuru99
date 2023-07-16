@@ -1,8 +1,9 @@
-let maxName = 'oamPJUEhdZQwkldZSBkwtuNdLEqfZvGMgAUHLEPfMWGUBORQXT';
-let maxAddress = 'echCqdombkpeqEKNvSOgngKqhUzfMxMWfwwMrUsdldkmhJuIPfPuoOysCYVxBuXldKaIrAGzhPDWTShMhRhKuNJcjKhagVCWvQct';
+import { faker } from '@faker-js/faker';
+const data = require ('../../fixtures/Customer.json');
 let maxEmail = 'EnPfVYOHOMOSWXJOKTdtivLmYGqVbNpHciSkXQJEzFbBsaBgZMnCNIthMChaURwU@xqXJmJicjNSAJmOSOQIYEybvfkqWfkctTlEVkoXcrwSxBDKffKAVlwcwVoRwQwtoLCTMHfnaBIVcIBYMnOYpZwOehBksSRiKtCHWmUBednMuHHeqKMigtwHONtsiVaZtKDprAARBDTlkHkTvsvYyHxWYoJyEmYyoVhwPtOlFqqvZZoUkIjlrFbFKeMehhVtcRdZUTKBacdTiVtKhzjkohVFKgiBuymTOEXASJBNWnLpAwMSmEIEBhINzVJym.la';
-let maxTel = '123456789112';
-const data = require ('../../fixtures/Customer.json') 
+let maxName = faker.string.alpha(50)
+let maxAddress = faker.string.alpha(50)
+let maxTel = faker.string.numeric(12)
 
 
 Cypress.on('uncaught:exception', (err, runnable) => {
@@ -11,7 +12,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 });
 
     
-it('Valid Customer, check ACTIVE status', () => {
+it.only('Valid Customer, check ACTIVE status', () => {
     cy.visit("https://demo.guru99.com/telecom/addcustomer.php");
     cy.log('Page Add Customer opened');
     cy.get('a[href="index.html"]').eq(0).should('have.text', 'Guru99 telecom');
@@ -26,8 +27,7 @@ it('Valid Customer, check ACTIVE status', () => {
         });
       });
       cy.log('Done checked')
-    cy.getAndFillCustomer(data.Vcustomer.firstName, data.Vcustomer.lastName, 
-        data.Vcustomer.email, data.Vcustomer.address, data.Vcustomer.mobile)
+      cy.getAndFillCustomer()
     cy.get('input[type="submit"]')
     .should('have.css', 'background-color', 'rgb(246, 117, 94)')	
     .click();
@@ -50,7 +50,7 @@ it('Valid Customer, check ACTIVE status', () => {
 });
  
 
-it.only('Valid Customer min value and Pending radio, Check customer status - INACTIVE', () => {
+it('Valid Customer min value and Pending radio, Check customer status - INACTIVE', () => {
     cy.visit("https://demo.guru99.com/telecom/addcustomer.php");
     cy.log('Page Add Customer opened')
     cy.get('#pending')
@@ -63,8 +63,7 @@ it.only('Valid Customer min value and Pending radio, Check customer status - INA
           expect(background).to.contains('rgb(246, 117, 94)');
         });
       });
-    cy.getAndFillCustomer(data.Vcustomer.firstName, data.Vcustomer.lastName, 
-        data.Vcustomer.email, data.Vcustomer.address, data.Vcustomer.mobile)
+    cy.getAndFillCustomer()
     cy.get('input[type="submit"]')
     .click()
     let customerId;
@@ -79,10 +78,10 @@ it.only('Valid Customer min value and Pending radio, Check customer status - INA
 });
 
 
-it.skip('Valid Customer max value', () => {
+it('Valid Customer max value', () => {
     cy.visit("https://demo.guru99.com/telecom/addcustomer.php");
     cy.log('Page Add Customer opened')
-    cy.getAndFillCustomer(maxName, maxName, 
+    cy.getAndFillCustomerOption(maxName, maxName, 
         maxEmail, maxAddress, maxTel);
     cy.get('#message').should('not.be.visible')
     cy.log('Error has not appear');

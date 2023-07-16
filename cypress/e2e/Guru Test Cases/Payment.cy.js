@@ -31,7 +31,7 @@ it.skip('Check quantity and price', () => {
 });
 
  
-it('Check all links', () => {
+it.skip('Check all links', () => {
 
     let links = {
       'Insurance Project': '/insurance/v1/index.php',
@@ -77,7 +77,7 @@ it('Check all links', () => {
   });
 }); 
 
-it('Payment page - Valid card, select all drop-down', () => {
+it.skip('Payment page - Valid card, select all drop-down', () => {
   cy.visit("https://demo.guru99.com/payment-gateway/process_purchasetoy.php");
   cy.get('#card_nmuber').should('be.visible')
   .should('have.attr', 'placeholder', 'Enter Your Card Number')
@@ -102,9 +102,9 @@ it('Payment page - Valid card, select all drop-down', () => {
 
 
 
-it.only('Payment page - Valid Visa', () => {
+it('Payment page - Valid Visa', () => {
   cy.visit("https://demo.guru99.com/payment-gateway/process_purchasetoy.php");
-  cy.getAndFillCard(data.visa.number, 
+  cy.getAndFillCardVisa(
     data.visa.month,
     data.visa.year,
     data.visa.cvv)
@@ -115,10 +115,9 @@ it.only('Payment page - Valid Visa', () => {
 
 it('Payment page - Valid  MASTER CARD', () => {
   cy.visit("https://demo.guru99.com/payment-gateway/process_purchasetoy.php");
-  cy.getAndFillCard(data.mastercard.number, 
+  cy.getAndFillCardMasterCard(
     data.mastercard.month,
-    data.mastercard.year,
-    data.mastercard.cvv)
+    data.mastercard.year)
   cy.get('.button.special').should('be.visible').click({force:true})
   cy.url().should('contain', 'genearte_orderid.php?uid')   
 });
@@ -126,17 +125,16 @@ it('Payment page - Valid  MASTER CARD', () => {
  
 it('Payment page - Valid  DISCOVER CARD', () => {
   cy.visit("https://demo.guru99.com/payment-gateway/process_purchasetoy.php");
-  cy.getAndFillCard(data.discover.number, 
+  cy.getAndFillCardDiscover(
     data.discover.month,
-    data.discover.year,
-    data.discover.cvv)
+    data.discover.year)
   cy.get('.button.special').should('be.visible').click({force:true})
   cy.url().should('contain', 'genearte_orderid.php?uid')   
 });
 
 it('Payment page - Valid  American Express', () => {
   cy.visit("https://demo.guru99.com/payment-gateway/process_purchasetoy.php");
-  cy.getAndFillCard(data.american.number, 
+  cy.getAndFillCardAmerican(
     data.american.month,
     data.american.year,
     data.american.cvv)

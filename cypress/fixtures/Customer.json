@@ -1,11 +1,9 @@
-
 {
-  "Vcustomer":
-      {
-      "firstName": "Joe",
-      "lastName": "Doe",
-      "email": "test@te.com",
-      "address": "McCullough St 15",
-      "mobile": "14762382817"
-    }
+  "Vcustomer": {
+    "firstName": "Joe",
+    "lastName": "Doe",
+    "email": "test@te.com",
+    "address": "McCullough St 15",
+    "mobile": "14762382817"
   }
+}

@@ -7,7 +7,7 @@ const data = require ('../../fixtures/Customer.json')
 describe('Negative Add customer', () => {
 it('Invalid Customer min-1, radio button not checked', () => {
     cy.visit("https://demo.guru99.com/telecom/addcustomer.php");
-    cy.getAndFillCustomer('t', 'e', 
+    cy.getAndFillCustomerOption('t', 'e', 
         't@et', 's', 123456)
     cy.get('input[type="submit"]').click()
     cy.on('window:alert',(txt)=>{
@@ -18,7 +18,7 @@ it('Invalid Customer min-1, radio button not checked', () => {
 it('Invalid Customer max+1', () => {
     cy.visit("https://demo.guru99.com/telecom/addcustomer.php");
     cy.log('Page Add Customer opened')
-    cy.getAndFillCustomer(maxName+'a', maxName+'a', 
+    cy.getAndFillCustomerOption(maxName+'a', maxName+'a', 
         maxEmail+'a', maxAddress+'a', maxTel+'2');
     cy.get('#message').should('be.visible')
     cy.log('Error appears');
